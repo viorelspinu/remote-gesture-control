@@ -103,8 +103,6 @@ function isNear(nose, part) {
 }
 
 
-    //console.log(leftWrist.position.y + "," + leftWrist.score);
-}
 
 
 async function main() {

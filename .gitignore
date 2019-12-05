@@ -1,1 +1,4 @@
 nodejs-posenet/test.jpg
+node_modules
+.cache
+dist
