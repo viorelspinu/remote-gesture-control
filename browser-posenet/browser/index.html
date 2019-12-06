@@ -5,22 +5,18 @@
     <title>PoseNet - Camera Feed Demo</title>
     <style>
         .footer {
-            position: fixed;
-            left: 700px;
-            top: 0;
-            width: 30%;
             color: black;
             text-align: left;
+            margin-left:200px;
         }
-        .counter{
-            width:20px;
+
+        .counter {
+            width: 20px;
         }
 
 
 
         @media only screen and (max-width: 600px) {
-
-            .footer-text,
             .dg {
                 display: none;
             }
@@ -76,6 +72,14 @@
 </head>
 
 <body>
+    <div class="footer">
+        <input type="text" id="state" value="IDLE">
+        <input type="text" class="counter" id="idleCounter" value="">
+        <input type="text" class="counter" id="leftHighCounter" value="">
+        <input type="text" class="counter" id="rightHighCounter" value="">
+
+    </div>
+
     <div id="info" style='display:none'>
     </div>
     <div id="loading" style='display:flex'>
@@ -94,15 +98,7 @@
         </video>
         <canvas id="output" />
     </div>
-    <div class="footer">
-        <div class="footer-text">
-            <p>
-                <input type="text" id="state" value="IDLE">
-                <input type="text" class="counter" id="idleCounter" value="">
-                <input type="text" class="counter" id="leftHighCounter" value="">
-                <input type="text" class="counter" id="rightHighCounter" value="">
-        </div>
-    </div>
+    <br>
 
     <script src="camera.js"></script>
     <script src="process_pose.js"></script>

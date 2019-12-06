@@ -80,7 +80,7 @@ const defaultResNetInputResolution = 200;
 const guiState = {
   algorithm: 'single-pose',
   input: {
-    architecture: 'ResNet50',
+    architecture: 'MobileNetV1',
     outputStride: defaultMobileNetStride,
     inputResolution: defaultMobileNetInputResolution,
     multiplier: defaultMobileNetMultiplier,
