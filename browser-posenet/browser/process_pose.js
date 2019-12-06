@@ -1,30 +1,76 @@
+const IDLE_STATE = 0;
+const NEXT_SLIDE_STATE = 2;
+const AFTER_NEXT_STATE = 3;
+const BACK_SLIDE_STATE = 4;
+const AFTER_BACK_STATE = 5;
+const MAX_COUNTER = 20;
+
+state = IDLE_STATE;
+
+highAndFarCounter = 0;
+nearNoseCouter = 0;
+idleCounter = 0;
+
+
 function doProcessPoses(poses) {
     let pose = poses[0];
     const nose = pose.keypoints.find(e => e.part == 'nose');
     const leftWrist = pose.keypoints.find(e => e.part == 'leftWrist');
     const rightWrist = pose.keypoints.find(e => e.part == 'rightWrist');
 
-    // console.log(nose);
-    // console.log(leftWrist);
-    // console.log(rightWrist);
+    let active = false;
 
-    if (isHighAndFar(nose, leftWrist)) {
-        console.log("NEXT !");
+    if (this.isHighAndFar(nose, leftWrist) || this.isHighAndFar(nose, rightWrist)) {
+        active = true;
+        this.nextEventCounter++;
     }
 
-    if (isHighAndFar(nose, rightWrist)) {
-        console.log("NEXT !");
+    if (this.isNear(nose, leftWrist) || this.isNear(nose, rightWrist)) {
+        active = true;
+        this.backEventCounter++;
     }
-
-    if (isNear(nose, leftWrist)) {
-        console.log("BACK !");
-    }
-
-    if (isNear(nose, rightWrist)) {
-        console.log("BACK !");
+    if (!active) {
+        this.idleCounter++;
     }
 }
 
+function processState() {
+    if (IDLE_STATE == state) {
+        if (nextEventCounter > MAX_COUNTER) {
+            state = NEXT_SLIDE_STATE;
+            resetCounters();
+        }
+        if (backEventCounter > MAX_COUNTER) {
+            state = BACK_SLIDE_STATE;
+            resetCounters();
+        }
+    } else if (NEXT_SLIDE_STATE == state) {
+        console.log("NEXT !");
+        state = AFTER_NEXT_STATE;
+        resetCounters();
+    } else if (AFTER_NEXT_STATE == state) {
+        if (idleCounter > MAX_COUNTER) {
+            state = IDLE_STATE;
+            resetCounters();
+        }
+    } else if (BACK_SLIDE_STATE == state){
+        console.log("BACK !");
+        state = AFTER_BACK_STATE;
+        resetCounters();
+    } else if (AFTER_BACK_STATE == state){
+        if (idleCounter > MAX_COUNTER){
+            state = IDLE_STATE;
+            resetCounters();
+        }
+    }
+}
+
+
+function resetCounters() {
+    backEventCounter = 0;
+    nextEventCounter = 0;
+    idleCounter = 0;
+}
 
 function isHighAndFar(nose, part) {
     let noseVisible = nose.score > 0.5;
@@ -43,3 +89,5 @@ function isNear(nose, part) {
 
     return noseVisible && partVisible && near;
 }
+
+
