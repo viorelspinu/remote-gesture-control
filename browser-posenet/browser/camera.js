@@ -24,6 +24,10 @@ const videoWidth = 600;
 const videoHeight = 500;
 const stats = new Stats();
 
+export function setPoseListener(listener) {
+  window.poseListener = listener;
+}
+
 /**
  * Loads a the camera to be used in the demo
  *
@@ -65,9 +69,9 @@ async function loadVideo() {
 
 const defaultQuantBytes = 2;
 
-const defaultMobileNetMultiplier = isMobile() ? 0.50 : 0.75;
+const defaultMobileNetMultiplier = isMobile() ? 0.50 : 1;
 const defaultMobileNetStride = 16;
-const defaultMobileNetInputResolution = 500;
+const defaultMobileNetInputResolution = 250;
 
 const defaultResNetMultiplier = 1.0;
 const defaultResNetStride = 32;
@@ -76,7 +80,7 @@ const defaultResNetInputResolution = 250;
 const guiState = {
   algorithm: 'single-pose',
   input: {
-    architecture: 'MobileNetV1',
+    architecture: 'ResNet50',
     outputStride: defaultMobileNetStride,
     inputResolution: defaultMobileNetInputResolution,
     multiplier: defaultMobileNetMultiplier,
@@ -88,7 +92,7 @@ const guiState = {
   },
   multiPoseDetection: {
     maxPoseDetections: 5,
-    minPoseConfidence: 0.15,
+    minPoseConfidence: 0.5,
     minPartConfidence: 0.1,
     nmsRadius: 30.0,
   },
@@ -442,8 +446,8 @@ function detectPoseInRealTime(video, net) {
 
     requestAnimationFrame(poseDetectionFrame);
 
-    if (processPoses) {
-      processPoses(poses);
+    if (window.poseListener) {
+      window.poseListener(poses);
     }
   }
 
