@@ -71,11 +71,11 @@ const defaultQuantBytes = 2;
 
 const defaultMobileNetMultiplier = isMobile() ? 0.50 : 1;
 const defaultMobileNetStride = 16;
-const defaultMobileNetInputResolution = 250;
+const defaultMobileNetInputResolution = 200;
 
 const defaultResNetMultiplier = 1.0;
 const defaultResNetStride = 32;
-const defaultResNetInputResolution = 250;
+const defaultResNetInputResolution = 200;
 
 const guiState = {
   algorithm: 'single-pose',
@@ -93,7 +93,7 @@ const guiState = {
   multiPoseDetection: {
     maxPoseDetections: 5,
     minPoseConfidence: 0.5,
-    minPartConfidence: 0.1,
+    minPartConfidence: 0.5,
     nmsRadius: 30.0,
   },
   output: {

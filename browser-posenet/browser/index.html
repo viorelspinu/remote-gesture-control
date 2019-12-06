@@ -6,17 +6,17 @@
     <style>
         .footer {
             position: fixed;
-            left: 0;
-            bottom: 0;
-            width: 100%;
+            left: 700px;
+            top: 0;
+            width: 30%;
             color: black;
+            text-align: left;
+        }
+        .counter{
+            width:20px;
         }
 
-        .footer-text {
-            max-width: 600px;
-            text-align: center;
-            margin: auto;
-        }
+
 
         @media only screen and (max-width: 600px) {
 
@@ -97,13 +97,10 @@
     <div class="footer">
         <div class="footer-text">
             <p>
-                PoseNet runs with either a <strong>single-pose</strong> or <strong>multi-pose</strong> detection
-                algorithm. The single person pose detector is faster and more accurate but requires only one subject
-                present in the image.
-                <br>
-                <br> The <strong>output stride</strong> and <strong>input resolution</strong> have the largest effects
-                on accuracy/speed. A <i>higher</i> output stride results in lower accuracy but higher speed. A
-                <i>higher</i> image scale factor results in higher accuracy but lower speed. </p>
+                <input type="text" id="state" value="IDLE">
+                <input type="text" class="counter" id="idleCounter" value="">
+                <input type="text" class="counter" id="leftHighCounter" value="">
+                <input type="text" class="counter" id="rightHighCounter" value="">
         </div>
     </div>
 
