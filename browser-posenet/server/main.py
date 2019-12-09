@@ -29,7 +29,7 @@ def chat_socket(ws):
         if (message.startswith("__EVENT__")):
             message = message.replace("__EVENT__", "")
             processEvent(message, r)
-            processState(r)
+            processState(ws, r)
             socketSend(ws, message)
 
 
@@ -56,7 +56,7 @@ def processEvent(message, r):
         r.set('idle_counter', idle_counter)
 
 
-def processState(r):
+def processState(ws, r):
 
     left_counter = int(r.get("left_counter"))
     right_counter = int(r.get("right_counter"))
@@ -71,10 +71,12 @@ def processState(r):
     if (IDLE_STATE == state):
         if (left_counter > MAX_COUNTER):
             r.set("state", BACK_SLIDE_STATE)
+            socketSend(ws, "__PRESS__BACK__")
             print("BACK !")
             resetCounters(r)
         if (right_counter > MAX_COUNTER):
             r.set("state", NEXT_SLIDE_STATE)
+            socketSend(ws, "__PRESS__NEXT__")
             print("NEXT !")
             resetCounters(r)
     elif (NEXT_SLIDE_STATE == state):
