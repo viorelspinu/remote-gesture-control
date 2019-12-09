@@ -1,15 +1,19 @@
 import { setPoseListener } from "./camera";
-import { socketSend } from "./websocket";
+import { socketSend } from "websocket";
 
-const MAX_COUNTER = 1;
-const IDLE_MAX_COUNTER = 5;
-const IDLE_SEND_COUNT = 20;
+const IDLE_STATE = 0;
+const NEXT_SLIDE_STATE = 2;
+const AFTER_NEXT_STATE = 3;
+const BACK_SLIDE_STATE = 4;
+const AFTER_BACK_STATE = 5;
+const MAX_COUNTER = 5;
+
+let state = IDLE_STATE;
 
 let leftHighCounter = 0;
 let rightHighCounter = 0;
 let idleCounter = 0;
 
-let idleSentCounter = 0;
 
 function doProcessPoses(poses) {
     let pose = poses[0];
@@ -44,26 +48,38 @@ function doProcessPoses(poses) {
 }
 
 function processState() {
-
-    if (rightHighCounter > MAX_COUNTER) {
-        displayState("NEXT");
-        socketSend("__EVENT__RIGHT");
-        resetCounters();
-        idleSentCounter = 0;
-    }
-    if (leftHighCounter > MAX_COUNTER) {
-        displayState("BACK");
-        socketSend("__EVENT__LEFT");
-        resetCounters();
-        idleSentCounter = 0;
-    }
-
-    if (idleCounter > IDLE_MAX_COUNTER) {
-        if (idleSentCounter < IDLE_SEND_COUNT) {
-            displayState("IDLE");
-            socketSend("__EVENT__IDLE");
+    if (IDLE_STATE == state) {
+        if (rightHighCounter > MAX_COUNTER) {
+            state = NEXT_SLIDE_STATE;
+            displayState("NEXT");
             resetCounters();
-            idleSentCounter++;
+        }
+        if (leftHighCounter > MAX_COUNTER) {
+            state = BACK_SLIDE_STATE;
+            displayState("BACK");
+            resetCounters();
+        }
+    } else if (NEXT_SLIDE_STATE == state) {
+        console.log("NEXT !");
+        state = AFTER_NEXT_STATE;
+        displayState("AFTER_NEXT");
+        resetCounters();
+    } else if (AFTER_NEXT_STATE == state) {
+        if (idleCounter > MAX_COUNTER) {
+            state = IDLE_STATE;
+            displayState("IDLE");
+            resetCounters();
+        }
+    } else if (BACK_SLIDE_STATE == state) {
+        console.log("BACK !");
+        state = AFTER_BACK_STATE;
+        displayState("AFTER_BACK");
+        resetCounters();
+    } else if (AFTER_BACK_STATE == state) {
+        if (idleCounter > MAX_COUNTER) {
+            state = IDLE_STATE;
+            displayState("IDLE");
+            resetCounters();
         }
     }
 }
