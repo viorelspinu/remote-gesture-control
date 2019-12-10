@@ -2,8 +2,11 @@ from pynput.keyboard import Key, Controller
 from lomond import WebSocket
 from lomond.persist import persist
 import time
+import os
 
-websocket = WebSocket('http://localhost:80/socket')
+server_ip = os.environ['REMOTE_PRESENTATION_SERVER_IP']
+
+websocket = WebSocket('http://' + server_ip + ': 80/socket')
 keyboard = Controller()
 
 for event in persist(websocket):
