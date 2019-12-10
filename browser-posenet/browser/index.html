@@ -61,6 +61,16 @@
             }
         }
 
+        .top_marker {
+            position: absolute;
+            background: #0F0;
+            z-index: 20000;
+            left: 0;
+            top: 0;
+            width: 100px;
+            height: 50px;
+        }
+
         .spinner-text {
             float: left;
         }
@@ -97,6 +107,10 @@
         <canvas id="output" />
     </div>
     <br>
+
+    <div class="top_marker" id="top_marker">
+
+    </div>
 
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="camera.js"></script>

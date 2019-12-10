@@ -47,12 +47,16 @@ function processState() {
     if (rightHighCounter > MAX_COUNTER) {
         displayState("NEXT");
         pubSub.publish("SOCKET_SEND_EVENT", "__EVENT__RIGHT");
+        document.getElementById('top_marker').style.visibility="";
+        document.getElementById('top_marker').style.background="#0F0";
         resetCounters();
         idleSentCounter = 0;
     }
     if (leftHighCounter > MAX_COUNTER) {
         displayState("BACK");
         pubSub.publish("SOCKET_SEND_EVENT", "__EVENT__LEFT");
+        document.getElementById('top_marker').style.visibility="";        
+        document.getElementById('top_marker').style.background="#55F";
         resetCounters();
         idleSentCounter = 0;
     }
@@ -61,6 +65,7 @@ function processState() {
         if (idleSentCounter < IDLE_SEND_COUNT) {
             displayState("IDLE");
             pubSub.publish("SOCKET_SEND_EVENT", "__EVENT__IDLE");
+            document.getElementById('top_marker').style.visibility="hidden";
             resetCounters();
             idleSentCounter++;
         }
