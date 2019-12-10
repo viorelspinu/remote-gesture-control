@@ -1,3 +1,10 @@
+
+const pubSub = require("./pubsub");
+
+function log(text) {
+    console.log(text);
+}
+
 function initSocket() {
     let port = location.port;
     port = 80;
@@ -9,10 +16,6 @@ function initSocket() {
         + '/socket';
 
     window.websocket = new WebSocket(webSocketUri);
-
-    function log(text) {
-        console.log(text);
-    }
 
     websocket.onopen = function () {
         log('Connected');
@@ -35,6 +38,7 @@ function initSocket() {
         console.log(e);
     };
 
+
 }
 
 export function socketSend(data) {
@@ -43,4 +47,7 @@ export function socketSend(data) {
 
 $(function () {
     initSocket();
+    pubSub.subscribe("SOCKET_SEND_EVENT", data => {
+        socketSend(data);
+    });
 });

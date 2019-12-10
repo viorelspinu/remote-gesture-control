@@ -1,5 +1,4 @@
-import { setPoseListener } from "./camera";
-import { socketSend } from "./websocket";
+const pubSub = require("./pubsub");
 
 const MAX_COUNTER = 1;
 const IDLE_MAX_COUNTER = 5;
@@ -47,13 +46,13 @@ function processState() {
 
     if (rightHighCounter > MAX_COUNTER) {
         displayState("NEXT");
-        socketSend("__EVENT__RIGHT");
+        pubSub.publish("SOCKET_SEND_EVENT", "__EVENT__RIGHT");
         resetCounters();
         idleSentCounter = 0;
     }
     if (leftHighCounter > MAX_COUNTER) {
         displayState("BACK");
-        socketSend("__EVENT__LEFT");
+        pubSub.publish("SOCKET_SEND_EVENT", "__EVENT__LEFT");
         resetCounters();
         idleSentCounter = 0;
     }
@@ -61,7 +60,7 @@ function processState() {
     if (idleCounter > IDLE_MAX_COUNTER) {
         if (idleSentCounter < IDLE_SEND_COUNT) {
             displayState("IDLE");
-            socketSend("__EVENT__IDLE");
+            pubSub.publish("SOCKET_SEND_EVENT", "__EVENT__IDLE");
             resetCounters();
             idleSentCounter++;
         }
@@ -94,5 +93,8 @@ function displayCounters() {
     document.getElementById("leftHighCounter").value = leftHighCounter;
 }
 
-setPoseListener(doProcessPoses);
-
+$(function () {
+    pubSub.subscribe("__POSES_EVENT", poses => {
+        doProcessPoses(poses);
+    });
+});

@@ -18,15 +18,13 @@ import * as posenet from '@tensorflow-models/posenet';
 import dat from 'dat.gui';
 import Stats from 'stats.js';
 
+const pubSub = require("./pubsub");
+
 import { drawBoundingBox, drawKeypoints, drawSkeleton, isMobile, toggleLoadingUI, tryResNetButtonName, tryResNetButtonText, updateTryResNetButtonDatGuiCss } from './demo_util';
 
 const videoWidth = 600;
 const videoHeight = 500;
 const stats = new Stats();
-
-export function setPoseListener(listener) {
-  window.poseListener = listener;
-}
 
 /**
  * Loads a the camera to be used in the demo
@@ -446,9 +444,7 @@ function detectPoseInRealTime(video, net) {
 
     requestAnimationFrame(poseDetectionFrame);
 
-    if (window.poseListener) {
-      window.poseListener(poses);
-    }
+    pubSub.publish("__POSES_EVENT", poses);
   }
 
   poseDetectionFrame();

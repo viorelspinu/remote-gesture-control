@@ -1,0 +1,6 @@
+Just install the Responsive Web Design Add-on to Chrome, and it will open a separate window without the address bar and tabs, which can be scaled down to 10 px or less.
+Link here: https://chrome.google.com/webstore/detail/responsive-web-design-tes/bdpelkpfhjfiacjeobkhlkkgaphbobea/related
+
+
+see full context here:
+https://stackoverflow.com/questions/8681903/browser-doesnt-scale-below-400px
