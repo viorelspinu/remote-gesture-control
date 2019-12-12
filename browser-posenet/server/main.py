@@ -2,7 +2,9 @@ from __future__ import print_function
 from flask import Flask, render_template
 from flask_sockets import Sockets
 import redis
+import os
 
+redis_password = os.environ['REDIS_PASSWORD']
 
 app = Flask(__name__)
 sockets = Sockets(app)
@@ -19,7 +21,7 @@ MAX_IDLE_COUNTER = 1
 
 @sockets.route('/socket')
 def chat_socket(ws):
-    r = redis.StrictRedis(host='127.0.0.1', port=6379, db=0)
+    r = redis.StrictRedis(host='127.0.0.1', port=6379, db=0, password=redis_password)
     r.set("state", IDLE_STATE)
     resetCounters(r)
     while not ws.closed:
