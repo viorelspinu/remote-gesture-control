@@ -19,7 +19,7 @@ MAX_IDLE_COUNTER = 1
 
 @sockets.route('/socket')
 def chat_socket(ws):
-    r = redis.StrictRedis(host='localhost', port=6379, db=0)
+    r = redis.StrictRedis(host='127.0.0.1', port=6379, db=0)
     r.set("state", IDLE_STATE)
     resetCounters(r)
     while not ws.closed:
