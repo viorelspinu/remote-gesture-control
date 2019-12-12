@@ -66,10 +66,10 @@ def processState(ws, r):
     idle_counter = int(r.get("idle_counter"))
     state = int(r.get("state"))
 
-    print(state)
-    print(right_counter)
-    print(left_counter)
-    print("----")
+#    print(state)
+#    print(right_counter)
+#    print(left_counter)
+#    print("----")
 
     if (IDLE_STATE == state):
         if (left_counter > MAX_COUNTER):
