@@ -1,1 +1,1 @@
-docker run -d -p 6379:6379 --name redis1 redis
+docker run -d -p 6379:6379 --name redis1 redis --bind 127.0.0.1
