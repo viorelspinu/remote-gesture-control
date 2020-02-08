@@ -6,7 +6,7 @@ import os
 
 server_ip = os.environ['REMOTE_PRESENTATION_SERVER_IP']
 
-websocket = WebSocket('http://' + server_ip + ': 80/socket')
+websocket = WebSocket('http://' + server_ip + ': 8181/socket')
 keyboard = Controller()
 
 for event in persist(websocket):
