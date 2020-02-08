@@ -7,7 +7,7 @@ function log(text) {
 
 function initSocket() {
     let port = location.port;
-    port = 80;
+    port = 8181;
 
     var scheme = window.location.protocol == "https:" ? 'wss://' : 'ws://';
     var webSocketUri = scheme
