@@ -23,6 +23,7 @@ function initSocket() {
 
     websocket.onclose = function () {
         //window.location.reload();
+        initSocket();
         log('Closed');
     };
 
