@@ -9,6 +9,8 @@ server_ip = os.environ['REMOTE_PRESENTATION_SERVER_IP']
 websocket = WebSocket('http://' + server_ip + ': 8181/socket')
 keyboard = Controller()
 
+idle_reset = True
+
 for event in persist(websocket):
     if event.name == "ready":
         print("ready")
@@ -16,12 +18,19 @@ for event in persist(websocket):
         text = event.text
         print(text)
         if ("__PRESS__BACK__" == text):
-            keyboard.press(Key.left)
-            time.sleep(0.1)
-            keyboard.release(Key.left)
-            time.sleep(0.1)
+            if (idle_reset):
+                keyboard.press(Key.left)
+                time.sleep(0.1)
+                keyboard.release(Key.left)
+                time.sleep(0.1)
+                idle_reset = False
         if ("__PRESS__NEXT__" == text):
-            keyboard.press(Key.right)
-            time.sleep(0.1)
-            keyboard.release(Key.right)
-            time.sleep(0.1)
+            if (idle_reset):
+                keyboard.press(Key.right)
+                time.sleep(0.1)
+                keyboard.release(Key.right)
+                time.sleep(0.1)
+                idle_reset = False
+        if ("IDLE" == text):
+            print("idle reset")
+            idle_reset = True
