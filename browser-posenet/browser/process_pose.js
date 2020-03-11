@@ -82,7 +82,8 @@ function resetCounters() {
 function isHigh(nose, part, shoulderDistance) {
     let noseVisible = nose.score > 0.5;
     let partVisible = part.score > 0.7;
-    let high = (nose.position.y - part.position.y) > (shoulderDistance / 2);
+    let high = (nose.position.y - part.position.y) > (shoulderDistance / 5);
+    //let high = (nose.position.y - part.position.y) > (shoulderDistance / 2);
 
     return partVisible && noseVisible && high;
 }
